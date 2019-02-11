@@ -3,7 +3,7 @@ class Oystercard
   MAXIMUM_BALANCE = 90
   MINIMUM_FARE = 1
 
-  attr_reader :balance
+  attr_reader :balance, :entry_station
 
   def initialize(initial_balance = 0)
     @balance = initial_balance
@@ -21,6 +21,7 @@ class Oystercard
 
   def touch_in
     raise "Insufficient funds." if @balance < MINIMUM_FARE
+    @entry_station = "Finsbury Park"
     @in_use = true
   end
 
@@ -28,6 +29,7 @@ class Oystercard
     deduct(MINIMUM_FARE)
     @in_use = false
   end
+
 
   private
 

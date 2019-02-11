@@ -40,4 +40,9 @@ describe Oystercard do
     expect { card.touch_out }.to change { card.balance }.by(-1)
   end
 
+  it "can remember entry_station after touch in" do
+    card.touch_in
+    expect(card.entry_station).to eq("Finsbury Park")
+  end
+
 end
