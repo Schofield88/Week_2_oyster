@@ -25,5 +25,8 @@ describe Oystercard do
     expect(card.deduct(5)).to eq 5
   end
 
+  it "knows it's not in journey yet" do
+    aurr.uru
+  end
 
 end
