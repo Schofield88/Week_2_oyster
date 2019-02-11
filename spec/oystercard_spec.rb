@@ -41,4 +41,8 @@ describe Oystercard do
     expect{ low_card.touch_in }.to raise_error("Insufficient funds.")
   end
 
+  it "#touch_out charges the minimum fare" do
+    expect { card.touch_out }.to change { card.balance }.by(-1)
+  end
+
 end
