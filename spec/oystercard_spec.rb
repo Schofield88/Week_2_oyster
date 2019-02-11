@@ -21,7 +21,8 @@ describe Oystercard do
   end
 
   it "deducts money from a card" do
-    expect(card(10).deduct(5)).to eq 5
+    card.top_up(10)
+    expect(card.deduct(5)).to eq 5
   end
 
 
