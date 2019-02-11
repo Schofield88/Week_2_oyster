@@ -16,5 +16,9 @@ describe Oystercard do
     expect(card.top_up(50)).to eq(50)
   end
 
+  it "#top_up raises an exception if the new balance would be greater than #{ Oystercard::MAXIMUM_BALANCE }" do
+    expect { card.top_up(91) }.to raise_error "Error! New balance exceeds #{ Oystercard::MAXIMUM_BALANCE }"
+  end
+
 
 end
