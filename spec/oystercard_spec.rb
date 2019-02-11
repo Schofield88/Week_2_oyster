@@ -16,11 +16,6 @@ describe Oystercard do
     expect { card.top_up(91) }.to raise_error "Error! New balance exceeds #{ Oystercard::MAXIMUM_BALANCE }"
   end
 
-  it "deducts money from a card" do
-    card.top_up(10)
-    expect(card.deduct(5)).to eq 15
-  end
-
   it "knows it's not in journey yet" do
     expect(card.in_journey?).to be false
   end
