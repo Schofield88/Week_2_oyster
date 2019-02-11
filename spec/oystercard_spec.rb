@@ -26,7 +26,18 @@ describe Oystercard do
   end
 
   it "knows it's not in journey yet" do
-    aurr.uru
+    expect(card.in_journey?).to be false
+  end
+
+  it "can #touch_in" do
+    card.touch_in
+    expect(card.in_journey?).to be true
+  end
+
+  it "can #touch_out" do
+    card.touch_in
+    card.touch_out
+    expect(card.in_journey?).to be false
   end
 
 end
