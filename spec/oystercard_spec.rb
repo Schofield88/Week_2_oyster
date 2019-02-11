@@ -3,6 +3,7 @@ require "oystercard"
 describe Oystercard do
 
   let (:card) { Oystercard.new(10) }
+  let (:station) { double(:station) }
 
   it "it has an initial balance of 0" do
     expect(card.balance).to eq(10)
@@ -17,23 +18,23 @@ describe Oystercard do
   end
 
   it "knows it's not in journey yet" do
-    expect(card.in_journey?).to be false
+    expect(card.in_journey?).to be_falsey
   end
 
   it "can #touch_in" do
-    card.touch_in
+    card.touch_in(station)
     expect(card.in_journey?).to be true
   end
 
   it "can #touch_out" do
-    card.touch_in
+    card.touch_in(station)
     card.touch_out
-    expect(card.in_journey?).to be false
+    expect(card.in_journey?).to be_falsey
   end
 
   it "will not let you travel with less than less than the minimum balance" do
     low_card = Oystercard.new(0.5)
-    expect{ low_card.touch_in }.to raise_error("Insufficient funds.")
+    expect{ low_card.touch_in(station) }.to raise_error("Insufficient funds.")
   end
 
   it "#touch_out charges the minimum fare" do
@@ -41,8 +42,14 @@ describe Oystercard do
   end
 
   it "can remember entry_station after touch in" do
-    card.touch_in
-    expect(card.entry_station).to eq("Finsbury Park")
+    card.touch_in(station)
+    expect(card.entry_station).to eq(station)
+  end
+
+  it "#touch_out sets entry_station to nil" do
+    card.touch_in(station)
+    card.touch_out
+    expect(card.entry_station).to be nil
   end
 
 end
