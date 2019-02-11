@@ -4,6 +4,7 @@ describe Oystercard do
 
   let (:card) { Oystercard.new(10) }
   let (:station) { double(:station) }
+  let (:exit_station) { double(:exit_station) }
 
   it "it has an initial balance of 0" do
     expect(card.balance).to eq(10)
@@ -28,7 +29,7 @@ describe Oystercard do
 
   it "can #touch_out" do
     card.touch_in(station)
-    card.touch_out
+    card.touch_out(exit_station)
     expect(card.in_journey?).to be_falsey
   end
 
@@ -38,7 +39,7 @@ describe Oystercard do
   end
 
   it "#touch_out charges the minimum fare" do
-    expect { card.touch_out }.to change { card.balance }.by(-1)
+    expect { card.touch_out(exit_station) }.to change { card.balance }.by(-1)
   end
 
   it "can remember entry_station after touch in" do
@@ -48,8 +49,20 @@ describe Oystercard do
 
   it "#touch_out sets entry_station to nil" do
     card.touch_in(station)
-    card.touch_out
-    expect(card.entry_station).to be nil
+    card.touch_out(exit_station)
+    expect(card.in_journey?).to be nil
+  end
+
+  it '#touch_out adds an exit station' do
+    card.touch_in(station)
+    card.touch_out(exit_station)
+    expect(card.journey_history.select { |element| element[:exit] }).to eq(exit_station)
+  end
+
+  it "stores a journey history" do
+    card.touch_in(station)
+    card.touch_out(exit_station)
+    expect(card.journey_history).to eq([{entry: station, exit: exit_station}])
   end
 
 end
