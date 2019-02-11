@@ -40,4 +40,8 @@ describe Oystercard do
     expect(card.in_journey?).to be false
   end
 
+  it "checks its balance" do
+    expect(card.balance).to eq 0
+  end
+
 end
